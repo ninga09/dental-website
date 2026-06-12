@@ -1,6 +1,8 @@
 import { getDb } from '@/lib/db';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 async function getPost(slug) {
     const db = await getDb();
     return db.get('SELECT * FROM blog_posts WHERE slug = ?', [slug]);
