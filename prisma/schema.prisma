@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Doctor {
+  id        Int      @id @default(autoincrement())
+  name      String
+  specialty String
+  image     String
+  bio       String
+}
+
+model Service {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+}
+
+model BlogPost {
+  id      Int      @id @default(autoincrement())
+  slug    String   @unique
+  title   String
+  excerpt String
+  date    String
+  status  String   @default("Published")
+}
+
+model Testimonial {
+  id      Int      @id @default(autoincrement())
+  name    String
+  rating  Int
+  comment String
+  status  String   @default("Pending")
+}
+
+model Content {
+  id      Int      @id @default(1)
+  section String   @unique
+  data    String
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  name     String
+  email    String   @unique
+  password String
+  role     String
+  status   String   @default("Active")
+}

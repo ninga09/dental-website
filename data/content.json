@@ -1,0 +1,23 @@
+{
+    "clinicName": "Premium Dental",
+    "homepage": {
+        "headline": "Welcome to Premium Dental Care",
+        "subtext": "Your smile, our passion. Expert care for a lifetime of healthy teeth."
+    },
+    "about": {
+        "title": "About Premium Dental",
+        "mission": "We are dedicated to delivering premium dental care with a patient-first approach...",
+        "history": "Founded in 2010, we have grown from a small family practice..."
+    },
+    "contact": {
+        "email": "info@premiumdental.com",
+        "phone": "+1 (555) 123-4567",
+        "whatsapp": "+15551234567",
+        "address": "123 Smile Avenue, Dental City",
+        "hours": {
+            "weekdays": "8:00 AM - 6:00 PM",
+            "saturday": "9:00 AM - 2:00 PM",
+            "sunday": "Closed"
+        }
+    }
+}

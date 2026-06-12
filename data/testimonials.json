@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "name": "Emily R.",
+        "rating": 5,
+        "comment": "The team was incredibly gentle and professional. My smile has never looked better!",
+        "status": "Approved"
+    },
+    {
+        "id": 2,
+        "name": "Mark T.",
+        "rating": 4,
+        "comment": "Great service and friendly staff. Highly recommend the orthodontics department.",
+        "status": "Approved"
+    },
+    {
+        "id": 3,
+        "name": "Sofia L.",
+        "rating": 5,
+        "comment": "Emergency appointment was handled quickly and pain‑free. Thank you!",
+        "status": "Approved"
+    }
+]

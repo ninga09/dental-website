@@ -1,19 +1,24 @@
 import './globals.css';
+import LayoutWrapper from './LayoutWrapper';
 
 export const metadata = {
-  title: 'Dental Clinic – Premium Care',
-  description: 'Modern dental clinic website with online booking, services, doctors, and patient reviews.',
-  viewport: 'width=device-width, initial-scale=1',
-  charset: 'utf-8',
+  title: 'Royal Care Dental – Premium Oral Healthcare',
+  description: 'Royal Care Dental Clinic in Kenya - Modern dental services, expert doctors, and seamless online booking for your perfect smile.',
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#0f172a',
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="glass">
-        <div className="container">
+      <body>
+        <LayoutWrapper>
           {children}
-        </div>
+        </LayoutWrapper>
       </body>
     </html>
   );

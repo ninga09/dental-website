@@ -1,0 +1,38 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2.5rem;
+    border-radius: var(--radius);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h2 {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.date {
+    font-size: 0.9rem;
+    color: var(--color-accent);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.card p {
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    opacity: 0.8;
+}
