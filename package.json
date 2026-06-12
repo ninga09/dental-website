@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node .next/standalone/server.js"
+    "start": "HOSTNAME=0.0.0.0 PORT=10000 node .next/standalone/server.js",
+    "seed": "node seed.js"
   },
   "prisma": {
     "seed": "node seed.js"
@@ -23,6 +24,5 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "typescript": "^5"
-  },
-  "devDependencies": {}
+  }
 }
