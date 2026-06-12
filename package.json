@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "cp -r public .next/standalone/ || true && mkdir -p .next/standalone/.next && cp -r .next/static .next/standalone/.next/ || true",
     "start": "HOSTNAME=0.0.0.0 PORT=10000 node .next/standalone/server.js",
     "seed": "node seed.js"
   },
