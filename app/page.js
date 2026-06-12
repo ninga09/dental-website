@@ -4,6 +4,8 @@ import GallerySlider from './components/GallerySlider';
 import GoogleMap from './components/GoogleMap';
 import { getDb } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 async function getData() {
     const db = await getDb();
 

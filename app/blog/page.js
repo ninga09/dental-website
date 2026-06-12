@@ -2,6 +2,8 @@ import Link from 'next/link';
 import styles from './Blog.module.css';
 import { getDb } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 async function getPosts() {
     try {
         const db = await getDb();
