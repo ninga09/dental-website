@@ -7,33 +7,53 @@ import { getDb } from '@/lib/db';
 export const dynamic = 'force-dynamic';
 
 async function getData() {
-    const db = await getDb();
+    try {
+        const db = await getDb();
 
-    // Fetch directly from DB instead of API during SSR
-    const [services, media, contentRows] = await Promise.all([
-        db.all('SELECT * FROM services'),
-        db.all('SELECT * FROM media'),
-        db.all('SELECT * FROM content')
-    ]);
+        const [services, media, contentRows] = await Promise.all([
+            db.all('SELECT * FROM services'),
+            db.all('SELECT * FROM media'),
+            db.all('SELECT * FROM content')
+        ]);
 
-    const content = {};
-    contentRows.forEach(row => {
-        content[row.section] = JSON.parse(row.data);
-    });
+        const content = {
+            clinicName: 'Royal Care Dental',
+            contact: {
+                address: 'Loading...',
+                phone: 'Loading...'
+            }
+        };
 
-    return {
-        content,
-        services,
-        media
-    };
+        contentRows.forEach(row => {
+            try {
+                content[row.section] = JSON.parse(row.data);
+            } catch (e) {
+                console.error('Failed to parse content row:', row.section);
+            }
+        });
+
+        return {
+            content,
+            services: services || [],
+            media: media || []
+        };
+    } catch (error) {
+        console.error('Failed to fetch home page data:', error);
+        return {
+            content: { clinicName: 'Royal Care Dental', contact: {} },
+            services: [],
+            media: []
+        };
+    }
 }
 
 export default async function HomePage() {
-    const { content, services, media } = await getData();
+    const data = await getData();
+    const { content, services, media } = data;
 
     return (
         <main>
-            <BannerCarousel clinicName={content.clinicName} />
+            <BannerCarousel clinicName={content.clinicName || 'Royal Care Dental'} />
 
             {/* Featured Services */}
             <section className="container" style={{ marginTop: '4rem', marginBottom: '4rem' }}>
@@ -43,13 +63,15 @@ export default async function HomePage() {
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
-                    {services.slice(0, 6).map((s, i) => (
+                    {services.length > 0 ? services.slice(0, 6).map((s, i) => (
                         <div key={i} className="glass fade-in" style={{ padding: '2rem', transition: 'transform 0.3s' }}>
                             <h3 style={{ marginBottom: '1rem', color: 'var(--color-primary)' }}>{s.title}</h3>
                             <p style={{ fontSize: '0.95rem', lineHeight: '1.5', opacity: 0.8 }}>{s.description}</p>
                             <a href={`/services#${s.title?.toLowerCase().replace(/ /g, '-')}`} style={{ marginTop: '1.5rem', display: 'inline-block', color: 'var(--color-accent)', fontWeight: '600', textDecoration: 'none' }}>Learn More →</a>
                         </div>
-                    ))}
+                    )) : (
+                        <p style={{ gridColumn: '1/-1', textAlign: 'center', opacity: 0.5 }}>Our specialists are preparing our list of services.</p>
+                    )}
                 </div>
             </section>
 
@@ -109,13 +131,13 @@ export default async function HomePage() {
                                 We are conveniently located in the heart of the community. Visit our state-of-the-art facility for a consultation.
                             </p>
                             <div className="glass" style={{ padding: '2rem' }}>
-                                <p style={{ marginBottom: '1rem' }}><strong>📍 Address:</strong> {content.contact?.address}</p>
-                                <p style={{ marginBottom: '1rem' }}><strong>📞 Phone:</strong> {content.contact?.phone}</p>
+                                <p style={{ marginBottom: '1rem' }}><strong>📍 Address:</strong> {content.contact?.address || 'Nairobi, Kenya'}</p>
+                                <p style={{ marginBottom: '1rem' }}><strong>📞 Phone:</strong> {content.contact?.phone || '+254 700 000 000'}</p>
                                 <p><strong>Parking:</strong> Free visitor parking available behind the building.</p>
                             </div>
                         </div>
                         <div style={{ height: '400px' }}>
-                            <GoogleMap address={content.contact?.address} height="100%" />
+                            <GoogleMap address={content.contact?.address || 'Nairobi, Kenya'} height="100%" />
                         </div>
 
                     </div>
