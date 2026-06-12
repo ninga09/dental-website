@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import styles from './Blog.module.css';
+import { getDb } from '@/lib/db';
 
 async function getPosts() {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
     try {
-        const res = await fetch(`${baseUrl}/api/blog`, { cache: 'no-store' });
-        if (!res.ok) return [];
-        const posts = await res.json();
-        return posts.filter(p => p.status === 'Published');
+        const db = await getDb();
+        const posts = await db.all('SELECT * FROM blog_posts WHERE status = ?', ['Published']);
+        return posts;
     } catch (e) {
+        console.error('Failed to fetch posts from DB:', e);
         return [];
     }
 }

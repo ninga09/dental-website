@@ -2,19 +2,27 @@ import BannerCarousel from './components/BannerCarousel';
 import Testimonials from './components/Testimonials';
 import GallerySlider from './components/GallerySlider';
 import GoogleMap from './components/GoogleMap';
+import { getDb } from '@/lib/db';
 
 async function getData() {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-    const [contentRes, servicesRes, mediaRes] = await Promise.all([
-        fetch(`${baseUrl}/api/content`, { cache: 'no-store' }),
-        fetch(`${baseUrl}/api/services`, { cache: 'no-store' }),
-        fetch(`${baseUrl}/api/media`, { cache: 'no-store' })
+    const db = await getDb();
+
+    // Fetch directly from DB instead of API during SSR
+    const [services, media, contentRows] = await Promise.all([
+        db.all('SELECT * FROM services'),
+        db.all('SELECT * FROM media'),
+        db.all('SELECT * FROM content')
     ]);
 
+    const content = {};
+    contentRows.forEach(row => {
+        content[row.section] = JSON.parse(row.data);
+    });
+
     return {
-        content: await contentRes.json(),
-        services: await servicesRes.json(),
-        media: await mediaRes.json()
+        content,
+        services,
+        media
     };
 }
 
@@ -37,7 +45,7 @@ export default async function HomePage() {
                         <div key={i} className="glass fade-in" style={{ padding: '2rem', transition: 'transform 0.3s' }}>
                             <h3 style={{ marginBottom: '1rem', color: 'var(--color-primary)' }}>{s.title}</h3>
                             <p style={{ fontSize: '0.95rem', lineHeight: '1.5', opacity: 0.8 }}>{s.description}</p>
-                            <a href={`/services#${s.title.toLowerCase().replace(/ /g, '-')}`} style={{ marginTop: '1.5rem', display: 'inline-block', color: 'var(--color-accent)', fontWeight: '600', textDecoration: 'none' }}>Learn More →</a>
+                            <a href={`/services#${s.title?.toLowerCase().replace(/ /g, '-')}`} style={{ marginTop: '1.5rem', display: 'inline-block', color: 'var(--color-accent)', fontWeight: '600', textDecoration: 'none' }}>Learn More →</a>
                         </div>
                     ))}
                 </div>
@@ -99,13 +107,13 @@ export default async function HomePage() {
                                 We are conveniently located in the heart of the community. Visit our state-of-the-art facility for a consultation.
                             </p>
                             <div className="glass" style={{ padding: '2rem' }}>
-                                <p style={{ marginBottom: '1rem' }}><strong>📍 Address:</strong> {content.contact.address}</p>
-                                <p style={{ marginBottom: '1rem' }}><strong>📞 Phone:</strong> {content.contact.phone}</p>
+                                <p style={{ marginBottom: '1rem' }}><strong>📍 Address:</strong> {content.contact?.address}</p>
+                                <p style={{ marginBottom: '1rem' }}><strong>📞 Phone:</strong> {content.contact?.phone}</p>
                                 <p><strong>Parking:</strong> Free visitor parking available behind the building.</p>
                             </div>
                         </div>
                         <div style={{ height: '400px' }}>
-                            <GoogleMap address={content.contact.address} height="100%" />
+                            <GoogleMap address={content.contact?.address} height="100%" />
                         </div>
 
                     </div>
