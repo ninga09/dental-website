@@ -7,17 +7,21 @@ import { useState, useEffect } from 'react';
 export default function LayoutWrapper({ children }) {
     const pathname = usePathname();
     const isAdmin = pathname.startsWith('/admin');
-    const [clinicName, setClinicName] = useState('Premium Dental');
-
+    const [clinicName, setClinicName] = useState('Royal Care Dental');
     const [whatsapp, setWhatsapp] = useState('');
 
     useEffect(() => {
         fetch('/api/content')
-            .then(res => res.json())
+            .then(res => res.ok ? res.json() : null)
             .then(data => {
-                if (data.clinicName) setClinicName(data.clinicName);
-                if (data.contact?.whatsapp) setWhatsapp(data.contact.whatsapp.replace(/[^\d]/g, ''));
-            });
+                if (data) {
+                    if (data.clinicName) setClinicName(data.clinicName);
+                    if (data.contact && typeof data.contact.whatsapp === 'string') {
+                        setWhatsapp(data.contact.whatsapp.replace(/[^\d]/g, ''));
+                    }
+                }
+            })
+            .catch(err => console.error('Failed to fetch layout content:', err));
     }, []);
 
     return (
@@ -60,4 +64,3 @@ export default function LayoutWrapper({ children }) {
         </>
     );
 }
-
