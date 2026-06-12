@@ -39,4 +39,3 @@ npx prisma db seed
 (Ensure your `package.json` has a `prisma` field with the seed command pointing to `seed.js`).
 
 ---
-Prepared by Antigravity AI
