@@ -10,7 +10,10 @@ export default function Header({ clinicName }) {
         <header className={styles.header}>
             <div className="container">
                 <nav className={styles.nav}>
-                    <Link href="/" className={styles.logo}>{clinicName || 'Premium Dental'}</Link>
+                    <Link href="/" className={styles.logo} style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                        <img src="/icon.png" alt="Logo" style={{ height: '40px', width: '40px', objectFit: 'contain' }} />
+                        {clinicName || 'Royal Care Dental'}
+                    </Link>
 
                     {/* Mobile Toggle */}
                     <button className={styles.toggle} onClick={() => setIsOpen(!isOpen)}>
