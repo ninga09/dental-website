@@ -131,13 +131,13 @@ export default async function HomePage() {
                                 We are conveniently located in the heart of the community. Visit our state-of-the-art facility for a consultation.
                             </p>
                             <div className="glass" style={{ padding: '2rem' }}>
-                                <p style={{ marginBottom: '1rem' }}><strong>📍 Address:</strong> {content.contact?.address || 'Nairobi, Kenya'}</p>
+                                <p style={{ marginBottom: '1rem' }}><strong>📍 Address:</strong> {content.contact?.address || 'Royal Care Dental Service, Sixth Street, Eastleigh, Nairobi, Kenya'}</p>
                                 <p style={{ marginBottom: '1rem' }}><strong>📞 Phone:</strong> {content.contact?.phone || '+254 700 000 000'}</p>
                                 <p><strong>Parking:</strong> Free visitor parking available behind the building.</p>
                             </div>
                         </div>
                         <div style={{ height: '400px' }}>
-                            <GoogleMap address={content.contact?.address || 'Nairobi, Kenya'} height="100%" />
+                            <GoogleMap address={content.contact?.address || 'Royal Care Dental Service, Sixth Street, Eastleigh, Nairobi, Kenya'} height="100%" />
                         </div>
 
                     </div>
